@@ -1,4 +1,4 @@
 # Plin, Seu assitente Financeiro
 Registrou, Plin. Controlou.
 
-![Plin](./images/logo_plin.png)
+<img src="./images/logo_plin.png" alt="Plin" width="50%"/>
