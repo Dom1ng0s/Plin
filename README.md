@@ -12,7 +12,7 @@ O **Plin** é um Chatbot de Gestão Financeira desenvolvido para reduzir a fric�
 
 ## 📋 Funcionalidades
 
-- [x] **Registro Rápido:** Adição de gastos e receitas via chat.
+- [ ] **Registro Rápido:** Adição de gastos e receitas via chat.
 - [ ] **Categorização:** Organização automática por tipo de despesa.
 - [ ] **Persistência de Dados:** Histórico salvo em banco de dados relacional (SQL).
 - [ ] **Relatórios:** Visualização de saldo e extrato mensal.
