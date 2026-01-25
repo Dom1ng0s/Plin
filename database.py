@@ -13,11 +13,11 @@ base = declarative_base()
 class Transacao(base):
     __tablename__ = "transacoes"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(BigInteger, nullable=False)
+    user_id = Column(BigInteger, primary_key=True) 
+    id_transacao_user = Column(Integer, primary_key=True) 
     quantia = Column(Float, nullable=False)
     tipo = Column(String, nullable=False)
     parcela = Column(String, nullable=True)
-    data = Column(DateTime,default=datetime.now)
+    data = Column(DateTime, default=datetime.now)
 
 base.metadata.create_all(engine)
