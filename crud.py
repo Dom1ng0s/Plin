@@ -47,3 +47,19 @@ def ler_extrato(db: Session, user_id: int,):
         .all()
     
     return transacoes
+
+
+def deletar_transacao(db: Session, user_id: int, transacao_id: int):
+    """DELETE FROM transacoes 
+        WHERE id = 5 
+        AND user_id = 12345;"""
+    transacao = db.query(Transacao).filter(
+        Transacao.id == transacao_id,
+        Transacao.user_id == user_id
+    ).first()
+
+    if transacao:
+        db.delete(transacao)
+        db.commit()
+        return True
+    return False

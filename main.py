@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
 from database import SessionLocal
-from crud import criar_transacao, ler_saldo, ler_extrato
+from crud import criar_transacao, ler_saldo, ler_extrato,deletar_transacao
 
 
 
@@ -112,6 +112,29 @@ async def extrato(update: Update, context: ContextTypes.DEFAULT_TYPE):
     finally:
         db.close()
 
+async def apagar(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        id_para_apagar = int(context.args[0])
+    except (IndexError, ValueError):
+        await update.message.reply_text("⚠️ Use assim: /apagar [número_do_id]\nExemplo: /apagar 2")
+        return
+
+    db = SessionLocal()
+    
+    try:
+        sucesso = deletar_transacao(db, update.effective_user.id, id_para_apagar)
+        
+        if sucesso:
+            await update.message.reply_text(f"✅ Transação #{id_para_apagar} apagada com sucesso!")
+        else:
+            await update.message.reply_text("❌ Não encontrada. Verifique o número no /extrato.")
+            
+    except Exception as e:
+        await update.message.reply_text(f"Erro ao apagar: {e}")
+        
+    finally:
+        db.close()
+
 if __name__ == '__main__':
     token = os.getenv('TELEGRAM_TOKEN')
     
@@ -130,5 +153,7 @@ if __name__ == '__main__':
         application.add_handler(ganhar_handler)
         extrato_handler = CommandHandler('extrato', extrato)
         application.add_handler(extrato_handler)
+        apagar_handler = CommandHandler('apagar', apagar)
+        application.add_handler(apagar_handler)
         application.run_polling()
 
