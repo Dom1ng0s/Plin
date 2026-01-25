@@ -104,7 +104,7 @@ async def extrato(update: Update, context: ContextTypes.DEFAULT_TYPE):
             
             icone = "🟢" if mov.quantia > 0 else "🔴"
             
-            texto += f"{icone} `[#{mov.id}]` `{data_formatada}`: *R$ {formatar_moeda(mov.quantia)}*\n"
+            texto += f"{icone} `[#{mov.id_transacao_user}]` `{data_formatada}`: *R$ {formatar_moeda(mov.quantia)}*\n"
             
         await update.message.reply_text(texto, parse_mode='Markdown')
         
