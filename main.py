@@ -180,5 +180,5 @@ if __name__ == '__main__':
         application.add_handler(CommandHandler(comando, funcao))
 
     
-        application.run_polling()
+    application.run_polling()
 
