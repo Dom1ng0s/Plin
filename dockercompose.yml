@@ -1,0 +1,9 @@
+services:
+  plin-bot:
+    container_name: plin_bot
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./data:/app
+    env_file:
+      - .env
