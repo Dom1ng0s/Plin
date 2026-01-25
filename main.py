@@ -134,7 +134,30 @@ async def apagar(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
     finally:
         db.close()
-
+async def ajuda(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    texto = (
+        "🆘 *Central de Ajuda do Plin*\n\n"
+        "Aqui estão os comandos que eu conheço:\n\n"
+        "🟢 */ganhar [valor]*\n"
+        "Registra uma entrada de dinheiro.\n"
+        "Ex: `/ganhar 1500`\n\n"
+        
+        "🔴 */gastar [valor]*\n"
+        "Registra uma saída de dinheiro.\n"
+        "Ex: `/gastar 45.50`\n\n"
+        
+        "💰 */saldo*\n"
+        "Mostra quanto você tem em caixa hoje.\n\n"
+        
+        "📄 */extrato*\n"
+        "Lista as últimas 10 movimentações com seus IDs.\n\n"
+        
+        "🗑️ */apagar [ID]*\n"
+        "Remove uma transação errada usando o número do ID (veja no extrato).\n"
+        "Ex: `/apagar 5`"
+    )
+    
+    await update.message.reply_text(texto, parse_mode='Markdown')
 if __name__ == '__main__':
     token = os.getenv('TELEGRAM_TOKEN')
     
@@ -143,17 +166,19 @@ if __name__ == '__main__':
     else:
         application = ApplicationBuilder().token(token).build()
         
-        start_handler = CommandHandler('start', start)
-        application.add_handler(start_handler)
-        gastar_handler = CommandHandler('gastar', gastar)
-        application.add_handler(gastar_handler)
-        saldo_handler = CommandHandler('saldo', saldo)
-        application.add_handler(saldo_handler)
-        ganhar_handler = CommandHandler('ganhar', ganhar)
-        application.add_handler(ganhar_handler)
-        extrato_handler = CommandHandler('extrato', extrato)
-        application.add_handler(extrato_handler)
-        apagar_handler = CommandHandler('apagar', apagar)
-        application.add_handler(apagar_handler)
+        handlers = [
+        ('start', start),
+        ('ajuda', ajuda),
+        ('saldo', saldo),
+        ('extrato', extrato),
+        ('ganhar', ganhar),
+        ('gastar', gastar),
+        ('apagar', apagar)
+    ]
+
+    for comando, funcao in handlers:
+        application.add_handler(CommandHandler(comando, funcao))
+
+    
         application.run_polling()
 
