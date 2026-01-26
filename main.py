@@ -33,6 +33,7 @@ def limpar_valor(entrada):
         partes = limpo.split('.')
         if len(partes[-1]) == 3:
             limpo = limpo.replace('.', '')
+    return float(limpo)
 
 
 
