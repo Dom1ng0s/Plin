@@ -19,6 +19,22 @@ def formatar_moeda(valor):
     
     return texto.replace('_', '.')
 
+def limpar_valor(entrada):
+    limpo = entrada.strip().replace('R$', '').replace(' ', '')
+    
+    if ',' in limpo and '.' in limpo:
+        limpo = limpo.replace('.', '').replace(',', '.')
+    
+    elif ',' in limpo:
+        limpo = limpo.replace(',', '.')
+        
+
+    elif '.' in limpo:
+        partes = limpo.split('.')
+        if len(partes[-1]) == 3:
+            limpo = limpo.replace('.', '')
+
+
 
 load_dotenv()
 
@@ -36,8 +52,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def gastar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        valor_texto = context.args[0].replace(',', '.')
-        valor_bruto = float(valor_texto)    
+        valor_bruto = limpar_valor(context.args[0])
         valor_final = -abs(valor_bruto)
     except (IndexError, ValueError):
         await update.message.reply_text("Ops! Use assim: /gastar 10.50")
@@ -68,8 +83,7 @@ async def saldo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def ganhar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        valor_texto = context.args[0].replace(',', '.')
-        valor_bruto = float(valor_texto)
+        valor_bruto = limpar_valor(context.args[0])
         valor_final = abs(valor_bruto)
     except (IndexError, ValueError):
         await update.message.reply_text("Ops! Use assim: /ganhar 1000.00")

@@ -1,15 +1,26 @@
-from database import SessionLocal, engine, base
-from crud import criar_transacao
+def formatar_moeda(entrada):
+    limpo = entrada.strip().replace('R$', '').replace(' ', '')
+    
+    if ',' in limpo and '.' in limpo:
+        limpo = limpo.replace('.', '').replace(',', '.')
+    
+    elif ',' in limpo:
+        limpo = limpo.replace(',', '.')
+        
 
-# 1. Cria uma nova sessão com o banco
-db = SessionLocal()
+    elif '.' in limpo:
+        partes = limpo.split('.')
+        if len(partes[-1]) == 3:
+            limpo = limpo.replace('.', '')
 
-# 2. Tenta criar uma transação de teste
-print("Tentando salvar transação...")
-gasto = criar_transacao(db, user_id=12345, quantia=50.0, tipo="despesa", parcela="1/2")
+    return float(limpo)
+def main():
+    texto = input("Insira o valor (ex: R$ 1.250,50): ")
+    try:
+        valor = formatar_moeda(texto)
+        print(f"Valor convertido para float: {valor}")
+    except ValueError:
+        print("Erro: Certifique-se de digitar um valor numérico válido.")
 
-# 3. Mostra o que foi salvo (inclusive o ID e a Data gerados automaticamente)
-print(f"Sucesso! ID: {gasto.id} | Data: {gasto.data} | Valor: {gasto.quantia} | Parcela: {gasto.parcela}")
-
-# 4. Fecha a conexão
-db.close()
+if __name__ == '__main__':
+    main()
