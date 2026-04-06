@@ -4,6 +4,8 @@ services:
     build: .
     restart: unless-stopped
     volumes:
-      - ./data:/app
+      - .:/app
+    environment:
+      - TZ=America/Maceio  # <-- Adicione isto!
     env_file:
       - .env
